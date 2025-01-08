@@ -117,19 +117,19 @@ public class UserService {
         add(user);
     }
 
-//    /**
-//     * 修改密码
-//     */
-//    public void updatePassword(Account account) {
-//        User dbUser = userMapper.selectByUsername(account.getUsername());
-//        if (ObjectUtil.isNull(dbUser)) {
-//            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
-//        }
-//        if (!account.getPassword().equals(dbUser.getPassword())) {
-//            throw new CustomException(ResultCodeEnum.PARAM_PASSWORD_ERROR);
-//        }
-//        dbUser.setPassword(account.getNewPassword());
-//        userMapper.updateById(dbUser);
-//    }
+    /**
+     * 修改密码
+     */
+    public void updatePassword(Account account) {
+        User dbUser = userMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbUser)) {
+            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbUser.getPassword())) {
+            throw new CustomException(ResultCodeEnum.PARAM_PASSWORD_ERROR);
+        }
+        dbUser.setPassword(account.getNewPassword());
+        userMapper.updateById(dbUser);
+    }
 
 }

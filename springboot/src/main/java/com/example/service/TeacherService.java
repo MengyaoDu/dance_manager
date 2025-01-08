@@ -117,19 +117,19 @@ public class TeacherService {
         add(teacher);
     }
 
-//    /**
-//     * 修改密码
-//     */
-//    public void updatePassword(Account account) {
-//        Teacher dbTeacher = teacherMapper.selectByUsername(account.getUsername());
-//        if (ObjectUtil.isNull(dbTeacher)) {
-//            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
-//        }
-//        if (!account.getPassword().equals(dbTeacher.getPassword())) {
-//            throw new CustomException(ResultCodeEnum.PARAM_PASSWORD_ERROR);
-//        }
-//        dbTeacher.setPassword(account.getNewPassword());
-//        teacherMapper.updateById(dbTeacher);
-//    }
+    /**
+     * 修改密码
+     */
+    public void updatePassword(Account account) {
+        Teacher dbTeacher = teacherMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbTeacher)) {
+            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbTeacher.getPassword())) {
+            throw new CustomException(ResultCodeEnum.PARAM_PASSWORD_ERROR);
+        }
+        dbTeacher.setPassword(account.getNewPassword());
+        teacherMapper.updateById(dbTeacher);
+    }
 
 }

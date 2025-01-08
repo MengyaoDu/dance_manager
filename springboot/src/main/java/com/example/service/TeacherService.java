@@ -90,33 +90,33 @@ public class TeacherService {
         return PageInfo.of(list);
     }
 
-//    /**
-//     * 登录
-//     */
-//    public Account login(Account account) {
-//        Account dbTeacher = teacherMapper.selectByUsername(account.getUsername());
-//        if (ObjectUtil.isNull(dbTeacher)) {
-//            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
-//        }
-//        if (!account.getPassword().equals(dbTeacher.getPassword())) {
-//            throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR);
-//        }
-//        // 生成token
-//        String tokenData = dbTeacher.getId() + "-" + RoleEnum.ADMIN.name();
-//        String token = TokenUtils.createToken(tokenData, dbTeacher.getPassword());
-//        dbTeacher.setToken(token);
-//        return dbTeacher;
-//    }
-//
-//    /**
-//     * 注册
-//     */
-//    public void register(Account account) {
-//        Teacher teacher = new Teacher();
-//        BeanUtils.copyProperties(account, teacher);
-//        add(teacher);
-//    }
-//
+    /**
+     * 登录
+     */
+    public Account login(Account account) {
+        Account dbTeacher = teacherMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbTeacher)) {
+            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbTeacher.getPassword())) {
+            throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR);
+        }
+        // 生成token
+        String tokenData = dbTeacher.getId() + "-" + RoleEnum.TEACHER.name();
+        String token = TokenUtils.createToken(tokenData, dbTeacher.getPassword());
+        dbTeacher.setToken(token);
+        return dbTeacher;
+    }
+
+    /**
+     * 注册
+     */
+    public void register(Account account) {
+        Teacher teacher = new Teacher();
+        BeanUtils.copyProperties(account, teacher);
+        add(teacher);
+    }
+
 //    /**
 //     * 修改密码
 //     */

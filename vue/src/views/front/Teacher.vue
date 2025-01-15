@@ -11,7 +11,7 @@
       <div>
         <el-row :gutter="40">
           <el-col :span="6" v-for="item in teacherData" style="margin-bottom: 20px">
-            <img :src="item.avatar" alt="" style="width: 276px;height: 280px;border-radius: 20px">
+            <img @click="$router.push('/front/teacherDetail?id=' + item.id)" :src="item.avatar" alt="" style="width: 276px;height: 280px;border-radius: 20px;cursor: pointer;">
             <div style="margin-top: 10px;font-size: 17px;font-weight: bold;color: #666666">导师：{{item.name}}</div>
             <div style="display: flex; color: #666666;margin-top: 10px;text-align: center;align-items: center">
               <div style="flex: 1;text-align: start">风格:{{item.style}}</div>

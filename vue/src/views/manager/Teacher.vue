@@ -25,7 +25,11 @@
         </el-table-column>
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="content" label="介绍"></el-table-column>
+        <el-table-column prop="content" label="介绍">
+          <template v-slot="scope">
+            <el-button type="primary" @click="viewEditor(scope.row.content)">点击查看</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="role" label="角色"></el-table-column>
@@ -52,7 +56,7 @@
     </div>
 
 
-    <el-dialog title="管理员" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="管理员" :visible.sync="fromVisible" width="60%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="头像">
           <el-upload
@@ -78,7 +82,8 @@
           <el-input v-model="form.email" placeholder="邮箱"></el-input>
         </el-form-item>
         <el-form-item label="介绍" prop="content">
-          <el-input type="textarea" :rows="4" v-model="form.content" placeholder="老师介绍"></el-input>
+          <div id="editor"></div>
+
         </el-form-item>
         <el-form-item label="风格" prop="style">
           <el-input v-model="form.style" placeholder="风格"></el-input>
@@ -90,16 +95,21 @@
         <el-button type="primary" @click="save">确 定</el-button>
       </div>
     </el-dialog>
-
-
+    <el-dialog title="详细信息" :visible.sync="viewVisible" width="55%" :close-on-click-modal="false" destroy-on-close>
+      <div v-html="viewData" class="w-e-text-container"></div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import E from 'wangeditor'
 export default {
   name: "Teacher",
   data() {
     return {
+      editor:null,
+      viewData:null,
+      viewVisible: false,
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
@@ -120,17 +130,36 @@ export default {
     this.load(1)
   },
   methods: {
+    initWangEditor(content) {
+      this.$nextTick(()=>{
+        this.editor = new E('#editor')
+        this.editor.config.placeholder='请输入内容'
+        this.editor.config.uploadFileName = 'file'
+        this.editor.config.uploadImgServer='http://localhost:9090/files/wang/upload'
+        this.editor.create()
+        setTimeout(() => {
+          this.editor.txt.html(content)
+        })
+      })
+    },
+    viewEditor(content){
+      this.viewData=content
+      this.viewVisible=true
+    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
+      this.initWangEditor('')
       this.fromVisible = true   // 打开弹窗
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
+      this.initWangEditor(this.form.content)
       this.fromVisible = true   // 打开弹窗
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          this.form.content=this.editor.txt.html()
           this.$request({
             url: this.form.id ? '/teacher/update' : '/teacher/add',
             method: this.form.id ? 'PUT' : 'POST',

@@ -29,6 +29,7 @@
         <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column prop="style" label="风格"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
             <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
@@ -79,7 +80,9 @@
         <el-form-item label="介绍" prop="content">
           <el-input type="textarea" :rows="4" v-model="form.content" placeholder="老师介绍"></el-input>
         </el-form-item>
-
+        <el-form-item label="风格" prop="style">
+          <el-input v-model="form.style" placeholder="风格"></el-input>
+        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">

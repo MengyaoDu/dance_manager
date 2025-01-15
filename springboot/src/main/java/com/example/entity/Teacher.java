@@ -17,6 +17,15 @@ public class Teacher extends Account implements Serializable {
     private String content;
     private String phone;
     private String email;
+    private String style;
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
     @Override
     public Integer getId() {

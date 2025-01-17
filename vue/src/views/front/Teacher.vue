@@ -16,13 +16,24 @@
             <div style="display: flex; color: #666666;margin-top: 10px;text-align: center;align-items: center">
               <div style="flex: 1;text-align: start">风格:{{item.style}}</div>
               <div style="flex: 1">
-                <el-button type="info">我要预约</el-button>
+                <el-button type="info" @click="reserveInit(item.id)">我要预约</el-button>
               </div>
             </div>
           </el-col>
         </el-row>
       </div>
     </div>
+    <el-dialog title="预约信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+      <el-form label-width="100px" style="padding-right: 50px" >
+        <el-form-item prop="content" label="预约说明">
+          <el-input type="textarea" :rows="5" v-model="content" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fromVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">提 交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -54,7 +65,11 @@ export default {
         '/images/Carousel11.jpg',
         '/images/Carousel12.jpg'
       ],
-      teacherData:[]
+      teacherData:[],
+      content:null,
+      fromVisible:false,
+      teacherId:null,
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
     }
   },
   mounted() {
@@ -67,6 +82,30 @@ export default {
           this.teacherData=res.data
         }else{
           this.$message.error(res.msg)
+        }
+      })
+    },
+    reserveInit(teacherId){
+      if(this.user.role !== 'USER'){
+        this.$message.warning('您的角色暂不支持该操作')
+        return
+      }
+      this.teacherId=teacherId
+      //打开对话框
+      this.fromVisible=true
+    },
+    submit(){
+      let data={
+        userId:this.user.id,
+        teacherId:this.teacherId,
+        content:this.content
+      }
+      this.$request.post('/reserve/add', data).then(res=>{
+        if(res.code==='200'){
+          this.$message.success('恭喜你预约成功！')
+          this.teacherId=null
+          this.content=null
+          this.fromVisible=false
         }
       })
     }

@@ -10,7 +10,7 @@
           <el-button type="primary" @click="submit">提 交</el-button>
         </div>
       </div>
-      <div style="font-size: 17px;font-weight: bold;margin: 20px 0;color:  #F28500">看看其他小伙伴对导师的评价</div>
+      <div style="font-size: 17px;font-weight: bold;margin: 20px 0;color:  #F28500">看看其他小伙伴对导师的评价({{commentData.length}})</div>
       <div style="margin: 40px 0 100px 0">
         <el-row :gutter="10" v-for="item in commentData" style="margin-bottom: 30px">
           <el-col :span="4">
@@ -49,7 +49,11 @@ export default {
   //methods：本页面所有的点击事件或者其他函数定义区
   methods:{
     loadComment(){
-      this.$request.get('./comment/selectAll/').then(res=>{
+      this.$request.get('./comment/selectAll/',{
+        params:{
+          teacherId:this.teacherId
+        }
+      }).then(res=>{
         if(res.code==='200'){
           this.commentData=res.data
         }else{

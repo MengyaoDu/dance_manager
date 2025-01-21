@@ -1,6 +1,8 @@
 package com.example.mapper;
 
 import com.example.entity.Course;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -34,4 +36,8 @@ public interface CourseMapper {
     */
     List<Course> selectAll(Course course);
 
+    @Select("select course.*, teacher.name as teacherName from course " +
+            "left join teacher on course.teacher_id = teacher.id " +
+            "order by id desc limit 4")
+    List<Course> selectFour();
 }

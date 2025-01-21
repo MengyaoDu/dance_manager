@@ -74,4 +74,8 @@ public class CourseService {
         return PageInfo.of(list);
     }
 
+    public List<Course> selectFour() {
+        return courseMapper.selectFour();
+    }
+
 }

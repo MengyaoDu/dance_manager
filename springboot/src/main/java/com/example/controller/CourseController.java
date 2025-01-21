@@ -73,6 +73,13 @@ public class CourseController {
         return Result.success(list);
     }
 
+    @GetMapping("/selectFour")
+    public Result selectFour() {
+        List<Course> list = courseService.selectFour();
+        return Result.success(list);
+    }
+
+
     /**
      * 分页查询
      */

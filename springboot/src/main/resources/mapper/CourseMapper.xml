@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.CourseMapper">
 
     <sql id="Base_Column_List">
-        id,img,name,time,price,teacher_id,content,room
+        id,img,name,time,price,teacher_id,content,room,difficult,minPeople,totalPeople,bookedPeople
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Course">
@@ -20,10 +20,10 @@
     </select>
 
     <select id="selectById" resultType="com.example.entity.Course">
-        select
-        <include refid="Base_Column_List" />
+        select course.*,teacher.name as teacherName
         from course
-        where id = #{id}
+        left join teacher on course.teacher_id = teacher.id
+        where course.id = #{id}
     </select>
 
     <delete id="deleteById">
@@ -42,6 +42,10 @@
                 <if test="price != null">price,</if>
                 <if test="teacherId != null">teacher_id,</if>
                 <if test="room != null">room,</if>
+                <if test="difficult != null">difficult,</if>
+                <if test="minPeople != null">minPeople,</if>
+                <if test="totalPeople != null">totalPeople,</if>
+                <if test="bookedPeople != null">bookedPeople,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id},</if>
@@ -52,6 +56,10 @@
                 <if test="price != null">#{price},</if>
                 <if test="teacherId != null">#{teacherId},</if>
                 <if test="room != null">#{room},</if>
+                <if test="difficult != null">#{difficult},</if>
+                <if test="minPeople != null">#{minPeople},</if>
+                <if test="totalPeople != null">#{totalPeople},</if>
+                <if test="bookedPeople != null">#{bookedPeople},</if>
         </trim>
     </insert>
 
@@ -78,6 +86,18 @@
             </if>
             <if test="room != null">
                 room = #{room},
+            </if>
+            <if test="difficult != null">
+                difficult = #{difficult},
+            </if>
+            <if test="minPeople != null">
+                minPeople = #{minPeople},
+            </if>
+            <if test="totalPeople != null">
+                totalPeople = #{totalPeople},
+            </if>
+            <if test="bookedPeople != null">
+                bookedPeople = #{bookedPeople},
             </if>
         </set>
         where id = #{id} 

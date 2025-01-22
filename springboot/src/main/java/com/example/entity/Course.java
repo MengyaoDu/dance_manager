@@ -16,6 +16,43 @@ public class Course implements Serializable {
     private Integer teacherId;
     private String content;
     private String room;
+    private String  difficult;
+
+    public String getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(String difficult) {
+        this.difficult = difficult;
+    }
+
+    public String getMinPeople() {
+        return minPeople;
+    }
+
+    public void setMinPeople(String minPeople) {
+        this.minPeople = minPeople;
+    }
+
+    public String getTotalPeople() {
+        return totalPeople;
+    }
+
+    public void setTotalPeople(String totalPeople) {
+        this.totalPeople = totalPeople;
+    }
+
+    public String getBookedPeople() {
+        return bookedPeople;
+    }
+
+    public void setBookedPeople(String bookedPeople) {
+        this.bookedPeople = bookedPeople;
+    }
+
+    private String minPeople;
+    private String totalPeople;
+    private String bookedPeople;
 
     private String teacherName;
 

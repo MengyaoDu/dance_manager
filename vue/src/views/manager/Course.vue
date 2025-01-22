@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search">
-      <el-input placeholder="请输入课程名称查询" style="width: 200px" v-model="name"></el-input>
+      <el-input placeholder="请输入舞种类型查询" style="width: 200px" v-model="name"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
@@ -28,6 +28,7 @@
         <el-table-column prop="room" label="课程教室" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="课程价格" show-overflow-tooltip></el-table-column>
         <el-table-column prop="teacherName" label="任课老师" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="difficulty" label="课程难度" show-overflow-tooltip></el-table-column>
         <el-table-column prop="content" label="课程介绍" show-overflow-tooltip>
         <template v-slot="scope">
           <el-button type="primary" @click="viewEditor(scope.row.content)">点击查看</el-button>
@@ -85,6 +86,9 @@
             <el-option v-for="item in teacherData" :label="item.name"  :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item prop="difficult" label="课程难度">
+          <el-input v-model="form.difficult" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item prop="content" label="课程介绍">
           <div id="editor"></div>
         </el-form-item>
@@ -113,7 +117,9 @@ export default {
       total: 0,
       name: null,
       fromVisible: false,
-      form: {},
+      form: {
+        difficult:''
+      },
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {},
       ids: [],

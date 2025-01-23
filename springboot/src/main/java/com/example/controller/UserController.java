@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.common.Result;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.User;
 import com.example.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -63,6 +64,13 @@ public class UserController {
         User user = userService.selectById(id);
         return Result.success(user);
     }
+
+    @GetMapping("/recharge/{account}")
+    public Result recharge(@PathVariable Double account){
+        userService.recharge(account);
+        return Result.success();
+    }
+
 
     /**
      * 查询所有

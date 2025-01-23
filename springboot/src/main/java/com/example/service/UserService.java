@@ -71,7 +71,11 @@ public class UserService {
      * 根据ID查询
      */
     public User selectById(Integer id) {
-        return userMapper.selectById(id);
+        User dbUser = userMapper.selectById(id);
+        String tokenData = dbUser.getId() + "-" + RoleEnum.USER.name();
+        String token = TokenUtils.createToken(tokenData, dbUser.getPassword());
+        dbUser.setToken(token);
+        return dbUser;
     }
 
     /**
@@ -130,6 +134,13 @@ public class UserService {
         }
         dbUser.setPassword(account.getNewPassword());
         userMapper.updateById(dbUser);
+    }
+
+    public void recharge(Double account){
+        Account currentUser = TokenUtils.getCurrentUser();
+        User user = userMapper.selectById(currentUser.getId());
+        user.setAccount(user.getAccount() + account);
+        userMapper.updateById(user);
     }
 
 }

@@ -1,11 +1,12 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
-import com.example.entity.Account;
-import com.example.entity.Orders;
-import com.example.entity.User;
+import cn.hutool.core.util.ObjectUtil;
+import com.example.entity.*;
 import com.example.exception.CustomException;
+import com.example.mapper.CourseMapper;
 import com.example.mapper.OrdersMapper;
+import com.example.mapper.TeacherMapper;
 import com.example.mapper.UserMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
@@ -27,6 +28,10 @@ public class OrdersService {
     private OrdersMapper ordersMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private CourseMapper courseMapper;
+    @Resource
+    private TeacherMapper teacherMapper;
 
     /**
      * 新增
@@ -88,6 +93,22 @@ public class OrdersService {
     public PageInfo<Orders> selectPage(Orders orders, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Orders> list = ordersMapper.selectAll(orders);
+        for(Orders dbOrders:list){
+            Integer userId=dbOrders.getUserId();
+            User user= userMapper.selectById(userId);
+            if(ObjectUtil.isNotEmpty(user)){
+                dbOrders.setUserName(user.getName());
+            }
+           Course course= courseMapper.selectById(dbOrders.getCourseId());
+            if(ObjectUtil.isNotEmpty(course)){
+                dbOrders.setCourseName(course.getName());
+                Teacher teacher=teacherMapper.selectById(course.getTeacherId());
+                if(ObjectUtil.isNotEmpty(teacher)){
+                    dbOrders.setTeacherName(teacher.getName());
+                    dbOrders.setTeacherId(teacher.getId());
+                }
+            }
+        }
         return PageInfo.of(list);
     }
 

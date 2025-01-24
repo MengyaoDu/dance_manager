@@ -23,6 +23,28 @@ public class Orders implements Serializable {
     private String courseName;
     private String userName;
 
+    private String teacherName;
+    private Integer teacherId;
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
+
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+
+
     public Integer getId() {
         return id;
     }

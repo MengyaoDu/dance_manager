@@ -11,7 +11,7 @@
             <div style="margin-bottom: 20px;font-size: 18px;color: #666666">授课导师:{{courseData.teacherName}}</div>
             <div style="margin-bottom: 20px;font-size: 18px;color: #666666">上课时间:{{courseData.time}}</div>
             <div style="margin-bottom: 20px;font-size: 18px;color: #666666">课程价格:<span style="color: red"> ￥{{courseData.price}}</span></div>
-            <div style="margin-top: 30px"><el-button type="primary">我要预约</el-button></div>
+            <div style="margin-top: 30px"><el-button type="primary" @click="buy">我要预约</el-button></div>
           </el-col>
         </el-row>
       </div>
@@ -26,6 +26,7 @@ export default {
 
   data() {
     return {
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       courseId:this.$route.query.id,
       courseData:{}
     }
@@ -41,7 +42,20 @@ export default {
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-
+    buy(){
+      let data={
+        courseId:this.courseId,
+        userId:this.user.id,
+        price:this.courseData.price
+      }
+      this.$request.post('/orders/add',data).then(res=>{
+        if(res.code==='200'){
+          this.$message.success('预约成功！')
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    }
   }
 }
 </script>

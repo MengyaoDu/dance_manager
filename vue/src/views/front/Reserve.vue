@@ -58,6 +58,7 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.id
         }
       }).then(res => {
         this.tableData = res.data?.list

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BoreserveMapper">
+
+    <sql id="Base_Column_List">
+        id,borrow_id,user_id,start,end,status
+    </sql>
+
+    <select id="selectAll" resultType="com.example.entity.Boreserve">
+        select boreserve.*,user.name as userName,borrow.img as borrowImg,borrow.name as borrowName
+        from boreserve
+        left join borrow on boreserve.borrow_id = borrow.id
+        left join user on boreserve.user_id = user.id
+        <where>
+            <if test="id != null"> and id= #{id}</if>
+            <if test="userId !=null">and user_id = #{userId}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Boreserve">
+        select
+        <include refid="Base_Column_List" />
+        from boreserve
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from boreserve
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Boreserve" useGeneratedKeys="true">
+        insert into boreserve
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="borrowId != null">borrow_id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="start != null">start,</if>
+                <if test="end != null">end,</if>
+                <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="borrowId != null">#{borrowId},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="start != null">#{start},</if>
+                <if test="end != null">#{end},</if>
+                <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Boreserve">
+        update boreserve
+        <set>
+            <if test="borrowId != null">
+                borrow_id = #{borrowId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="start != null">
+                start = #{start},
+            </if>
+            <if test="end != null">
+                end = #{end},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id} 
+    </update>
+
+</mapper>

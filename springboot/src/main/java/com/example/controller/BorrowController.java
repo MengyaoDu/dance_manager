@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 公告信息表前端操作接口
+ * 教室器材预约前台表前端操作接口
  **/
 @RestController
 @RequestMapping("/borrow")

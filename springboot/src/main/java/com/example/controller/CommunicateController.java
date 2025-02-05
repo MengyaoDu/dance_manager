@@ -1,8 +1,8 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Boreserve;
-import com.example.service.BoreserveService;
+import com.example.entity.Communicate;
+import com.example.service.CommunicateService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,21 +10,21 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 教室器材预约后台表前端操作接口
+ * 交流信息表前端操作接口
  **/
 @RestController
-@RequestMapping("/boreserve")
-public class BoreserveController {
+@RequestMapping("/communicate")
+public class CommunicateController {
 
     @Resource
-    private BoreserveService boreserveService;
+    private CommunicateService communicateService;
 
     /**
      * 新增
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Boreserve boreserve) {
-        boreserveService.add(boreserve);
+    public Result add(@RequestBody Communicate communicate) {
+        communicateService.add(communicate);
         return Result.success();
     }
 
@@ -33,7 +33,7 @@ public class BoreserveController {
      */
     @DeleteMapping("/delete/{id}")
     public Result deleteById(@PathVariable Integer id) {
-        boreserveService.deleteById(id);
+        communicateService.deleteById(id);
         return Result.success();
     }
 
@@ -42,7 +42,7 @@ public class BoreserveController {
      */
     @DeleteMapping("/delete/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
-        boreserveService.deleteBatch(ids);
+        communicateService.deleteBatch(ids);
         return Result.success();
     }
 
@@ -50,8 +50,8 @@ public class BoreserveController {
      * 修改
      */
     @PutMapping("/update")
-    public Result updateById(@RequestBody Boreserve boreserve) {
-        boreserveService.updateById(boreserve);
+    public Result updateById(@RequestBody Communicate communicate) {
+        communicateService.updateById(communicate);
         return Result.success();
     }
 
@@ -60,16 +60,16 @@ public class BoreserveController {
      */
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id) {
-        Boreserve boreserve = boreserveService.selectById(id);
-        return Result.success(boreserve);
+        Communicate communicate = communicateService.selectById(id);
+        return Result.success(communicate);
     }
 
     /**
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Boreserve boreserve ) {
-        List<Boreserve> list = boreserveService.selectAll(boreserve);
+    public Result selectAll(Communicate communicate ) {
+        List<Communicate> list = communicateService.selectAll(communicate);
         return Result.success(list);
     }
 
@@ -77,10 +77,10 @@ public class BoreserveController {
      * 分页查询
      */
     @GetMapping("/selectPage")
-    public Result selectPage(Boreserve boreserve,
+    public Result selectPage(Communicate communicate,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageInfo<Boreserve> page = boreserveService.selectPage(boreserve, pageNum, pageSize);
+        PageInfo<Communicate> page = communicateService.selectPage(communicate, pageNum, pageSize);
         return Result.success(page);
     }
 

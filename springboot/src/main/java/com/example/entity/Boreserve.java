@@ -3,7 +3,7 @@ package com.example.entity;
 import java.io.Serializable;
 
 /**
- * 公告信息表
+ * 教室器材预约后台信息表
 */
 public class Boreserve implements Serializable {
     private static final long serialVersionUID = 1L;

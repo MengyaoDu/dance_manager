@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 教室器材预约信息表业务处理
+ * 教室器材预约后台表业务处理
  **/
 @Service
 public class BoreserveService {

@@ -20,6 +20,15 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
+    /**
+     * 重置密码为 123
+     */
+    @PutMapping("/resetPassword/{id}")
+    public Result resetPassword(@PathVariable Integer id) {
+        userService.resetPassword(id);
+        return Result.success();
+    }
     /**
      * 新增
      */

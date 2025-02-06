@@ -27,6 +27,17 @@ public class UserService {
     private UserMapper userMapper;
 
     /**
+     * 重置密码为 123
+     */
+    public void resetPassword(Integer id) {
+        User user = userMapper.selectById(id);
+        if (user != null) {
+            user.setPassword("123");
+            userMapper.updateById(user);
+        }
+    }
+
+    /**
      * 新增
      */
     public void add(User user) {

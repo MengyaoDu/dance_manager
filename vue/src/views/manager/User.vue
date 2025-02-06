@@ -31,7 +31,7 @@
         <el-table-column prop="account" label="余额"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button size="mini" type="primary" plain @click="resetPassword(scope.row.id)">重置密码</el-button>
             <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -113,6 +113,18 @@ export default {
     this.load(1)
   },
   methods: {
+    resetPassword(id) {
+      this.$confirm('您确定要将该用户的密码重置为 123 吗？', '确认重置', { type: "warning" }).then(response => {
+        this.$request.put(`/user/resetPassword/${id}`).then(res => {
+          if (res.code === '200') {
+            this.$message.success('密码重置成功')
+            this.load(1)
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }).catch(() => {})
+    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
